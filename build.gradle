@@ -1,0 +1,21 @@
+buildscript {
+    apply from: 'dependencies.gradle'
+
+    addRepos(repositories)
+    dependencies {
+        classpath "com.android.tools.build:gradle:$gradleVersion"
+        classpath global.hilt
+        classpath global.safeArgs
+        classpath global.safeArgsArch
+        classpath global.kotlin
+        classpath global.google
+    }
+}
+
+allprojects {
+    addRepos(repositories)
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

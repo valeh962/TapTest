@@ -1,0 +1,124 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+    id 'dagger.hilt.android.plugin'
+    id "androidx.navigation.safeargs.kotlin"
+}
+
+def properties = new Properties()
+file("../build.properties").withInputStream {
+    stream -> properties.load(stream)
+}
+
+android {
+
+    lintOptions {
+        abortOnError false
+    }
+
+    signingConfigs {
+        release {
+            storeFile file(properties.get("KEYSTORE_PATH"))
+            storePassword properties.getProperty("STORE_PASSWORD")
+            keyPassword properties.getProperty("KEY_PASSWORD")
+            keyAlias properties.getProperty("KEY_ALIAS")
+        }
+    }
+
+    compileSdkVersion build_versions.compileSdkVersion
+    buildToolsVersion build_versions.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion build_versions.minSdkVersion
+        targetSdkVersion build_versions.targetSdkVersion
+        versionCode app.versionCode
+        versionName app.versionName
+        buildConfigField("String", "API_KEY", properties.getProperty("API_KEY"))
+        buildConfigField("String", "CACHE_KEY", CACHE_KEY)
+        multiDexEnabled true
+    }
+
+    flavorDimensions "variant"
+    productFlavors {
+        prod {
+            buildConfigField("String", "API_KEY", properties.getProperty("API_KEY"))
+            buildConfigField("String", "CACHE_KEY", CACHE_KEY)
+            applicationId properties.getProperty("PACKAGE_ID_PROD")
+            dimension "variant"
+            manifestPlaceholders = [appName: properties.getProperty("APP_NAME_PROD")]
+            signingConfig signingConfigs.release
+        }
+        preprod {
+            buildConfigField("String", "API_KEY", properties.getProperty("API_KEY"))
+            buildConfigField("String", "CACHE_KEY", DEV_CACHE_KEY)
+            applicationId properties.getProperty("PACKAGE_ID_PREP")
+            dimension "variant"
+            manifestPlaceholders = [appName: properties.getProperty("APP_NAME_PREP")]
+            signingConfig signingConfigs.release
+        }
+    }
+
+    buildTypes {
+        debug {
+            shrinkResources false
+            minifyEnabled false
+            versionNameSuffix '_debug'
+        }
+        release {
+            debuggable false
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debuggableRelease {
+            debuggable true
+            shrinkResources false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            versionNameSuffix '_releaseDebug'
+            jniDebuggable true
+            renderscriptDebuggable true
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+}
+
+dependencies {
+
+    api project(":mod_base")
+
+    implementation base.core
+    implementation base.appCompat
+    implementation base.recyclerView
+    implementation base.constraint
+    implementation base.timber
+
+    implementation coroutines.core
+    implementation coroutines.android
+
+    implementation navigation.ui
+    implementation navigation.fragment
+
+    implementation lifeCycle.livedata
+    implementation lifeCycle.viewmodel
+
+    implementation di.android
+    kapt di.daggerCompiler
+
+    implementation "com.google.android.material:material:1.6.1"
+}

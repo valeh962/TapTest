@@ -1,0 +1,3 @@
+rootProject.name = "TapTest"
+include ':app'
+include ':mod_base'

@@ -1,0 +1,72 @@
+ext {
+    build_versions = [
+            buildToolsVersion: '30.0.3',
+            minSdkVersion    : 23,
+            targetSdkVersion : 31,
+            compileSdkVersion: 31
+    ]
+
+    app = [
+            versionCode: 1,
+            versionName: "1.0.0"
+    ]
+
+    coroutines = "1.5.2"
+    lifecycle = "2.4.0"
+    navigation = "2.4.1"
+    hiltVersion = "2.37"
+    googleServices = "4.3.10"
+    timber = "4.7.1"
+    gson = "2.8.6"
+    kotlinVersion = "1.6.10"
+
+    gradleVersion = "7.0.3"
+    archNavigation = "1.0.0"
+
+    global = [
+            gradleTools   : "com.android.tools.build:gradle:$gradleVersion",
+            hilt          : "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion",
+            safeArgs      : "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation",
+            safeArgsArch  : "android.arch.navigation:navigation-safe-args-gradle-plugin:$archNavigation",
+            kotlin        : "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion",
+            kotlinSTDLib  : "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion",
+            google     : "com.google.gms:google-services:4.3.10"
+    ]
+
+    base = [
+            core        : "androidx.core:core-ktx:1.6.0",
+            appCompat   : "androidx.appcompat:appcompat:1.3.1",
+            recyclerView: "androidx.recyclerview:recyclerview:1.2.1",
+            material    : "com.google.android.material:material:1.4.0",
+            constraint  : "androidx.constraintlayout:constraintlayout:2.1.1",
+            timber      : "com.jakewharton.timber:timber:$timber",
+    ]
+
+    lifeCycle = [
+            viewmodel: "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle",
+            livedata : "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle"
+    ]
+
+    coroutines = [
+            core   : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines",
+            android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
+    ]
+
+    navigation = [
+            ui      : "androidx.navigation:navigation-ui-ktx:$navigation",
+            fragment: "androidx.navigation:navigation-fragment-ktx:$navigation"
+    ]
+
+    di = [
+            android       : "com.google.dagger:hilt-android:$hiltVersion",
+            daggerCompiler: "com.google.dagger:hilt-android-compiler:$hiltVersion",
+    ]
+}
+
+static def addRepos(RepositoryHandler handler) {
+    handler.google()
+    handler.mavenCentral()
+    handler.maven { url 'https://jitpack.io' }
+}
+
+ext.addRepos = this.&addRepos

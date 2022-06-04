@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Crated by Valeh Asadov. Email: valeh569@gmail.com Phone: (+994) 51 620 33 10. Do not edit anything without permission. Copyright (c)) 2020-2021
+  -->
+
+<translate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="400"
+    android:fromXDelta="-10%p"
+    android:interpolator="@android:anim/accelerate_decelerate_interpolator"
+    android:toXDelta="0" />
