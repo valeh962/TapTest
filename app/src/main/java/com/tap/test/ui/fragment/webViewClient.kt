@@ -26,9 +26,11 @@ class WebViewClient(private val activity: BaseActivity<*, *>) : WebViewClient() 
             "javascript:(function() { " +
                     "document.getElementById('header-bar').style.display='none';" +
                     "document.getElementById('tablist').style.display='none';" +
-                    "document.getElementById('compact-media-item-metadata').style.display='none';" +
                     "})()"
         )
+
+//        view?.loadUrl("javascript:(function(){var p=document.getElementsByClassName('body')[0];p.style.visibility='hidden';p.style.width=0;p.style.height=0;p.style.padding=0;p.style.margin=0;document.getElementsByClassName('td-fix-index')[0].style.visibility='visible';)();");
+
 
 //        view?.loadUrl(
 //            "javascript:window.HtmlViewer.showHTML" +
